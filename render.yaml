@@ -1,26 +1,21 @@
 services:
-  - type: web_service
+  - type: web
     name: sagespark-backend
     env: python
     plan: free
     region: oregon
     branch: main
-    root: sagespark/backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    envVars:
-      - key: PYTHONPATH
-        value: app
+    buildCommand: cd sagespark/backend && pip install -r requirements.txt
+    startCommand: cd sagespark/backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
 
-  - type: web_service
+  - type: web
     name: sagespark-frontend
     env: node
     plan: free
     region: oregon
     branch: main
-    root: sagespark/frontend
-    buildCommand: npm install && npm run build
-    startCommand: npm run start
+    buildCommand: cd sagespark/frontend && npm install && npm run build
+    startCommand: cd sagespark/frontend && npm run start
     envVars:
       - key: BACKEND_URL
         value: https://sagespark-backend.onrender.com/chat
